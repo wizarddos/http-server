@@ -53,11 +53,16 @@ int send_response(int status_code, char *body, int clientfd){
     strcat(response, "Server: wizarddos-serv\r\n");
     strcat(response, "Content-Type: text/plain\r\n");
     strcat(response, "Content-Length: ");
-    char *cl;
-    sprintf(cl, "%d", sizeof(body));
-    strcat(response, cl);
+    if(body == NULL){
+        body = "";
+    }
+        char *cl;
+        sprintf(cl, "%d", strlen(body));
+        strcat(response, cl);
+    
     strcat(response, "\r\n\r\n");
     strcat(response, body);
+
 
     printf("%s\n", response);
     size_t err = send(clientfd, response, sizeof(response), 0);
