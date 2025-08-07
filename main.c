@@ -117,9 +117,13 @@ int main(){
             continue;
         }
 
+        if(strcmp(headers.method, "HEAD")){
+            body = NULL;
+        }
+
         if(send_response(200, body, clientfd) != -1){
             if(DEBUG){
-                printf("resp sent");
+                printf("resp sent\n");
             }
             free(body);
             close(clientfd);

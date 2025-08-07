@@ -60,7 +60,7 @@ int send_response(int status_code, char *body, int clientfd){
     strcat(response, body);
 
     printf("%s\n", response);
-    size_t err = send(clientfd, body, sizeof(body), 0);
+    size_t err = send(clientfd, response, sizeof(response), 0);
 
     return err;
 }
