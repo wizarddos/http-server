@@ -12,10 +12,13 @@ char *resolve_request(struct http_headers headers){
     char *body = malloc(5120+1);
 
     strcat(path, "./pages/");
-    strcat(path, strlen(headers.path) == 1 ? "index" : headers.path++);
+    strcat(path, strlen(headers.path) == 1 ? "index.html" : headers.path++);
 
     file = fopen(path , "r");
     if(file == NULL){
+        if(DEBUG){
+            printf("Failed to open file: \n");
+        }
         return NULL;
     }
 
@@ -56,16 +59,15 @@ int send_response(int status_code, char *body, int clientfd){
     if(body == NULL){
         body = "";
     }
-        char *cl;
-        sprintf(cl, "%d", strlen(body));
-        strcat(response, cl);
+    char *cl;
+    sprintf(cl, "%d", strlen(body));
+    strcat(response, cl);
     
     strcat(response, "\r\n\r\n");
     strcat(response, body);
 
 
-    printf("%s\n", response);
-    size_t err = send(clientfd, response, sizeof(response), 0);
+    size_t err = send(clientfd, response, strlen(response), 0);
 
     return err;
 }

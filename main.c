@@ -111,13 +111,13 @@ int main(){
 
         char *body = resolve_request(headers);
         if(body == NULL){
-            printf("GO FUCK YOURSELF!");
+            printf("GO FUCK YOURSELF!\n");
             send_response(404, NULL, clientfd);
             close(clientfd);
             continue;
         }
 
-        if(strcmp(headers.method, "HEAD")){
+        if(!strcmp(headers.method, "HEAD")){
             body = NULL;
         }
 
